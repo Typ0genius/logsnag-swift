@@ -8,6 +8,7 @@ public struct PublishOptions: Codable, Equatable {
     let icon: String?
     let notify: Bool?
     let tags: [String: TagValueTypes]?
+    let parser: Parser
     var project: String?
 
     /// Creates a `PublishOptions` object to send to LogSnag
@@ -18,13 +19,15 @@ public struct PublishOptions: Codable, Equatable {
     ///   - icon: Event icon (emoji)  (default `nil`)
     ///   - notify: Send push notification  (default `nil`)
     ///   - tags: Event tags  (default `nil`)
+    ///   - parser: Parser  (default `Text`)
     public init(
         channel: String,
         event: String,
         description: String? = nil,
         icon: String? = nil,
         notify: Bool? = nil,
-        tags: [String: TagValueTypes]? = nil
+        tags: [String: TagValueTypes]? = nil,
+        parser: Parser = .Text
     ) {
         self.channel = channel
         self.event = event
@@ -32,7 +35,13 @@ public struct PublishOptions: Codable, Equatable {
         self.icon = icon
         self.notify = notify
         self.tags = tags
+        self.parser = parser
     }
+}
+
+public enum Parser: String, Codable {
+    case Text = "text"
+    case Markdown = "markdown"
 }
 
 public enum TagValueTypes: Codable, Equatable {
